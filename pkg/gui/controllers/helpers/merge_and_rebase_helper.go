@@ -175,7 +175,8 @@ func (self *MergeAndRebaseHelper) CheckForConflicts(result error) error {
 	}
 
 	if isMergeConflictErr(result.Error()) {
-		return self.PromptForConflictHandling()
+		self.c.Context().Push(self.c.Contexts().Files, types.OnFocusOpts{})
+		return nil
 	}
 
 	return result
