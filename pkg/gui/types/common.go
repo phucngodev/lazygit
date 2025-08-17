@@ -56,6 +56,9 @@ type IGuiCommon interface {
 	RunSubprocess(cmdObj *oscommands.CmdObj) (bool, error)
 	RunSubprocessAndRefresh(*oscommands.CmdObj) error
 
+	Suspend() error
+	Resume() error
+
 	Context() IContextMgr
 	ContextForKey(key ContextKey) Context
 
@@ -147,11 +150,12 @@ const (
 )
 
 type CreateMenuOptions struct {
-	Title           string
-	Prompt          string // a message that will be displayed above the menu options
-	Items           []*MenuItem
-	HideCancel      bool
-	ColumnAlignment []utils.Alignment
+	Title                     string
+	Prompt                    string // a message that will be displayed above the menu options
+	Items                     []*MenuItem
+	HideCancel                bool
+	ColumnAlignment           []utils.Alignment
+	AllowFilteringKeybindings bool
 }
 
 type CreatePopupPanelOpts struct {
