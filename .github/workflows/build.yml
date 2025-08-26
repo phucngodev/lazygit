@@ -22,11 +22,14 @@ jobs:
           export GOPROXY=https://proxy.golang.org
           make
 
-      - name: Create Release tag
+      - name: Remove previous autorelease tag
+        env:
+         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh release delete -y autorelease
+
+      - name: Create new autorelease tag
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          TAG: ${{ github.ref_name }}
         run: |
-          RELEASE_TAG="v$(date +'%Y.%m.%d')"
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          gh release create $COMMIT_HASH  --title "v$(date +'%Y.%m.%d')"  --target $COMMIT_HASH --generate-notes lazygit
+          gh release create -p autorelease lazygit
