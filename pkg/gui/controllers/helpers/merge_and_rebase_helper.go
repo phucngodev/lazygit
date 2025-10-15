@@ -175,7 +175,13 @@ func (self *MergeAndRebaseHelper) CheckForConflicts(result error) error {
 	}
 
 	if isMergeConflictErr(result.Error()) {
-		return self.PromptForConflictHandling()
+		self.c.Context().Push(self.c.Contexts().Files, types.OnFocusOpts{})
+		self.c.LogAction(self.c.Tr.Actions.OpenMergeTool)
+		self.c.RunSubprocessAndRefresh(
+			self.c.Git().WorkingTree.OpenMergeToolCmdObj(),
+		)
+
+		return nil
 	}
 
 	return result

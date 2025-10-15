@@ -3,7 +3,7 @@ all: build
 
 .PHONY: build
 build:
-	go build -gcflags='all=-N -l'
+	GOOS=darwin GOARCH=arm64 GOEXPERIMENT=greenteagc,jsonv2  go build -gcflags='all=-N -l'
 
 .PHONY: install
 install:
